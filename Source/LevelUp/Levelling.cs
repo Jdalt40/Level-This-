@@ -49,6 +49,7 @@ namespace LevelUp
             {
                 if (parent is Pawn pawn)
                 {
+                    float Severity = Rand.Range(0f, 10f);
                     bool HealthHediff = pawn.health.hediffSet.HasHediff(LevellingHediffDefOf.HealthLevel);
                     if (pawn.kindDef.defaultFactionType != null)
                     {
@@ -62,7 +63,6 @@ namespace LevelUp
                         else if (!HealthHediff && !Player)
                         {
                             HediffMaker.MakeHediff(LevellingHediffDefOf.HealthLevel, pawn);
-                            float Severity = Rand.Range(0f, 10f);
                             HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / pawn.RaceProps.baseHealthScale);
                             return;
                         }
@@ -70,7 +70,6 @@ namespace LevelUp
                     if (pawn.kindDef.defaultFactionType == null && !HealthHediff)
                     {
                         HediffMaker.MakeHediff(LevellingHediffDefOf.HealthLevel, pawn);
-                        float Severity = Rand.Range(0f, 10f);
                         HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / pawn.RaceProps.baseHealthScale);
                     }
                 }
