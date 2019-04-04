@@ -32,7 +32,7 @@ namespace LevelUp
                     {
                         LevellingSoundDefOf.Level_Up.PlayOneShotOnCamera(null);
                     }
-                    Log.Message(totalDamageDealt + " / " + "75(1.075)^" + LevellingSeverity + " = " + totalDamageDealt / Compound * 75);
+                    //Log.Message(totalDamageDealt + " / " + "75(1.075)^" + LevellingSeverity + " = " + totalDamageDealt / Compound * 75);
                     HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, totalDamageDealt / Compound);
                 }
                 else
