@@ -1,0 +1,7 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level Up!\Assemblies\LevelUp.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level Up!\Assemblies\LevelUp.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level Up!\Source\LevelUp\obj\Debug\LevelUp.csprojAssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level Up!\Source\LevelUp\obj\Debug\LevelUp.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level Up!\Source\LevelUp\obj\Debug\LevelUp.csproj.CopyComplete
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level Up!\Source\LevelUp\obj\Debug\LevelUp.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level Up!\Source\LevelUp\obj\Debug\LevelUp.pdb

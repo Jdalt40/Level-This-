@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Level This! (Version 1.2: Finally got **** working)</name>
+  <author>Jdalt40</author>
+  <supportedVersions>
+  <li>1.0</li>
+  </supportedVersions>
+  <description>&lt;color=#7c0a02&gt;There can be only one!&lt;/color&gt;
+-Level This! introduces staggering new gameplay by introducing a Health levelling system, start as a level 1 Colonist and work your way up to the doomsday launcher absorbing Pirate Boss!
+  
+  
+  
+Joking aside, this mod allows pawns to level up depending on their damage taken. The damage requirement and the gains for each level are compounding by different rates to guarantee a certain balance.
+</description>
+</ModMetaData>
