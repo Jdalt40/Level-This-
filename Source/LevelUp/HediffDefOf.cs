@@ -14,10 +14,9 @@ namespace LevelUp
     [DefOf]
     public static class LevellingHediffDefOf
     {
-        // Token: 0x0600377F RID: 14207 RVA: 0x001A83FF File Offset: 0x001A67FF
         static LevellingHediffDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(HediffDefOf));
+            DefOfHelper.EnsureInitializedInCtor(typeof(LevellingHediffDefOf));
         }
         public static HediffDef HealthLevel;
     }
