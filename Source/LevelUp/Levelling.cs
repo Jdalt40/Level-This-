@@ -28,10 +28,13 @@ namespace LevelUp
                     //Log.Message("Pre Calculation: " + RemainingTillNextLevel + " - " + totalDamageDealt + " = " + (RemainingTillNextLevel - totalDamageDealt));
                     //Log.Message("Actual Calculation: " + RemainingTillNextLevelIncremental + " - " + totalDamageDealt + " = " + (RemainingTillNextLevelIncremental - totalDamageDealt));
                     float Compound = (75 * Mathf.Pow(1.075f, LevellingSeverity)) * pawn.RaceProps.baseHealthScale;
-                    if ((HealthScale - LevellingSeverity) + totalDamageDealt / Compound >= 1 && pawn.Faction.IsPlayer)
+                    if (pawn.Faction != null)
                     {
-                        Messages.Message(pawn.Name.ToStringShort + " has leveled up!", pawn, MessageTypeDefOf.SilentInput);
-                        LevellingSoundDefOf.Level_Up.PlayOneShotOnCamera(null);
+                        if ((HealthScale - LevellingSeverity) + totalDamageDealt / Compound >= 1 && pawn.Faction.IsPlayer)
+                        {
+                            Messages.Message(pawn.Name.ToStringShort + " has leveled up!", pawn, MessageTypeDefOf.SilentInput);
+                            LevellingSoundDefOf.Level_Up.PlayOneShotOnCamera(null);
+                        }
                     }
                     //Log.Message(totalDamageDealt + " / " + "75(1.075)^" + LevellingSeverity + " = " + totalDamageDealt / Compound * 75);
                     HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, totalDamageDealt / Compound);
