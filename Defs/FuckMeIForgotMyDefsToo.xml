@@ -5,5 +5,7 @@
     <hediffClass>LevelUp.LevelUpHealthHediff</hediffClass>
     <defName>HealthLevel</defName>
     <label>health</label>
+	<isBad>false</isBad>
+	<everCurableByItem>false</everCurableByItem>
   </HediffDef>
 </Defs>
