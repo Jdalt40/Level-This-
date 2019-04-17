@@ -9,12 +9,12 @@ using Verse.AI;
 using Verse.AI.Group;
 using Verse;
 using Verse.Sound;
-using static RimWorld.Verb_MeleeAttack;
 
 namespace LevelUp
 {
     public class HealthLevelling : ThingComp
     {
+        LevelUpModSettings settings = LoadedModManager.GetMod<LevelUpMod>().GetSettings<LevelUpModSettings>();
         public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
             if (parent is Pawn pawn)
@@ -27,7 +27,7 @@ namespace LevelUp
                     //float RemainingTillNextLevelIncremental = RemainingTillNextLevel * LevellingSeverity;
                     //Log.Message("Pre Calculation: " + RemainingTillNextLevel + " - " + totalDamageDealt + " = " + (RemainingTillNextLevel - totalDamageDealt));
                     //Log.Message("Actual Calculation: " + RemainingTillNextLevelIncremental + " - " + totalDamageDealt + " = " + (RemainingTillNextLevelIncremental - totalDamageDealt));
-                    float Compound = (75 * Mathf.Pow(1.075f, LevellingSeverity)) * pawn.RaceProps.baseHealthScale;
+                    float Compound = (75 * Mathf.Pow(settings.LevelUpRate + 1, LevellingSeverity)) * pawn.RaceProps.baseHealthScale;
                     if (pawn.Faction != null)
                     {
                         if ((HealthScale - LevellingSeverity) + totalDamageDealt / Compound >= 1 && pawn.Faction.IsPlayer)
@@ -74,7 +74,21 @@ namespace LevelUp
                     if (pawn.kindDef.defaultFactionType == null && !HealthHediff)
                     {
                         HediffMaker.MakeHediff(LevellingHediffDefOf.HealthLevel, pawn);
-                        HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / pawn.RaceProps.baseHealthScale);
+                        if (settings.LevelUpBodySizeMattersLess == true)
+                        {
+                            if (pawn.RaceProps.baseHealthScale <= 1)
+                            {
+                                HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity);
+                            }
+                            else if (pawn.RaceProps.baseHealthScale > 1)
+                            {
+                                HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / pawn.RaceProps.baseHealthScale);
+                            }
+                        }
+                        else
+                        {
+                            HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / pawn.RaceProps.baseHealthScale);
+                        }
                     }
                 }
                 return;
