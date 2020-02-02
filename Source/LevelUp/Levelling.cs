@@ -19,30 +19,58 @@ namespace LevelUp
         {
             if (parent is Pawn pawn)
             {
+                float baseHealthScale = pawn.RaceProps.baseHealthScale;
                 if (pawn.health.hediffSet.HasHediff(LevellingHediffDefOf.HealthLevel))
                 {
                     float HealthScale = pawn.health.hediffSet.GetFirstHediffOfDef(LevellingHediffDefOf.HealthLevel).Severity;
                     int LevellingSeverity = Mathf.FloorToInt(HealthScale);
+                    float LevelUpRate = settings.LevelUpRate + 1;
+                    float SimpleLevelUpRate = LevelUpRate * LevellingSeverity;
+                    float CompoundLevelUpRate = Mathf.Pow(LevelUpRate, LevellingSeverity);
+                    totalDamageDealt = Mathf.Max(1, totalDamageDealt);
                     //float RemainingTillNextLevel = (Mathf.CeilToInt(HealthScale) - (HealthScale)) * 100;
                     //float RemainingTillNextLevelIncremental = RemainingTillNextLevel * LevellingSeverity;
                     //Log.Message("Pre Calculation: " + RemainingTillNextLevel + " - " + totalDamageDealt + " = " + (RemainingTillNextLevel - totalDamageDealt));
                     //Log.Message("Actual Calculation: " + RemainingTillNextLevelIncremental + " - " + totalDamageDealt + " = " + (RemainingTillNextLevelIncremental - totalDamageDealt));
-                    float Compound = (75 * Mathf.Pow(settings.LevelUpRate + 1, LevellingSeverity)) * pawn.RaceProps.baseHealthScale;
+                    float Compound = (settings.BaseXP * CompoundLevelUpRate) * baseHealthScale;
+                    float Simple = (settings.BaseXP * SimpleLevelUpRate) * baseHealthScale;
+                    if (Simple == 0)
+                    {
+                        Simple = settings.BaseXP * baseHealthScale;
+                    }
                     if (pawn.Faction != null)
                     {
-                        if ((HealthScale - LevellingSeverity) + totalDamageDealt / Compound >= 1 && pawn.Faction.IsPlayer)
+                        if (settings.LevellingType == "Compound Levelling")
                         {
-                            Messages.Message(pawn.Name.ToStringShort + " has leveled up!", pawn, MessageTypeDefOf.SilentInput);
-                            LevellingSoundDefOf.Level_Up.PlayOneShotOnCamera(null);
+                            if ((HealthScale - LevellingSeverity) + totalDamageDealt / Compound >= 1 && pawn.Faction.IsPlayer)
+                            {
+                                Messages.Message(pawn.Name.ToStringShort + " has leveled up!", pawn, MessageTypeDefOf.SilentInput);
+                                LevellingSoundDefOf.Level_Up.PlayOneShotOnCamera(null);
+                            }
+                        }
+                        else if (settings.LevellingType == "Simple Levelling")
+                        {
+                            if ((HealthScale - LevellingSeverity) + totalDamageDealt / Simple >= 1 && pawn.Faction.IsPlayer)
+                            {
+                                Messages.Message(pawn.Name.ToStringShort + " has leveled up!", pawn, MessageTypeDefOf.SilentInput);
+                                LevellingSoundDefOf.Level_Up.PlayOneShotOnCamera(null);
+                            }
                         }
                     }
-                    //Log.Message(totalDamageDealt + " / " + "75(1.075)^" + LevellingSeverity + " = " + totalDamageDealt / Compound * 75);
-                    HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, totalDamageDealt / Compound);
+                    if (settings.LevellingType == "Compound Levelling")
+                    {
+                        //Log.Message(totalDamageDealt + " / " + "75(1.075)^" + LevellingSeverity + " = " + totalDamageDealt / Compound * 75);
+                        HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, totalDamageDealt / Compound);
+                    }
+                    else if (settings.LevellingType == "Simple Levelling")
+                    {
+                        HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, totalDamageDealt / Simple);
+                    }
                 }
                 else
                 {
                     HediffMaker.MakeHediff(LevellingHediffDefOf.HealthLevel, pawn);
-                    HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, totalDamageDealt / (75 * pawn.RaceProps.baseHealthScale));
+                    HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, totalDamageDealt / (settings.BaseXP * baseHealthScale));
                 }
             }
         }
@@ -53,7 +81,8 @@ namespace LevelUp
             {
                 if (parent is Pawn pawn)
                 {
-                    float Severity = Rand.Range(0f, 10f);
+                    float baseHealthScale = pawn.RaceProps.baseHealthScale;
+                    float Severity = Rand.Range(0f, settings.MaxRandomLevel);
                     bool HealthHediff = pawn.health.hediffSet.HasHediff(LevellingHediffDefOf.HealthLevel);
                     if (pawn.kindDef.defaultFactionType != null)
                     {
@@ -67,31 +96,28 @@ namespace LevelUp
                         else if (!HealthHediff && !Player)
                         {
                             HediffMaker.MakeHediff(LevellingHediffDefOf.HealthLevel, pawn);
-                            HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / pawn.RaceProps.baseHealthScale);
+                            HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / baseHealthScale);
                             return;
                         }
                     }
                     if (pawn.kindDef.defaultFactionType == null && !HealthHediff)
                     {
                         HediffMaker.MakeHediff(LevellingHediffDefOf.HealthLevel, pawn);
-                        if (settings.LevelUpBodySizeMattersLess == true)
+                        if (baseHealthScale <= 1)
                         {
-                            if (pawn.RaceProps.baseHealthScale <= 1)
-                            {
-                                HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity);
-                            }
-                            else if (pawn.RaceProps.baseHealthScale > 1)
-                            {
-                                HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / pawn.RaceProps.baseHealthScale);
-                            }
+                            HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity);
                         }
-                        else
+                        else if (baseHealthScale > 1)
                         {
-                            HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / pawn.RaceProps.baseHealthScale);
+                            HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / baseHealthScale);
                         }
                     }
+                    else if (!HealthHediff)
+                    {
+                        HediffMaker.MakeHediff(LevellingHediffDefOf.HealthLevel, pawn);
+                        HealthUtility.AdjustSeverity(pawn, LevellingHediffDefOf.HealthLevel, Severity / baseHealthScale);
+                    }
                 }
-                return;
             }
             return;
         }

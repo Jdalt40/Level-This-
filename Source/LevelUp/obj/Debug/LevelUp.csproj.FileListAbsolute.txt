@@ -12,3 +12,10 @@ C:\Users\dalto\Documents\GitHub\Level-This-\Source\LevelUp\obj\Debug\LevelUp.csp
 C:\Users\dalto\Documents\GitHub\Level-This-\Source\LevelUp\obj\Debug\LevelUp.csproj.CopyComplete
 C:\Users\dalto\Documents\GitHub\Level-This-\Source\LevelUp\obj\Debug\LevelUp.dll
 C:\Users\dalto\Documents\GitHub\Level-This-\Source\LevelUp\obj\Debug\LevelUp.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level-This-\Assemblies\LevelUp.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level-This-\Assemblies\LevelUp.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level-This-\Source\LevelUp\obj\Debug\LevelUp.csprojAssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level-This-\Source\LevelUp\obj\Debug\LevelUp.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level-This-\Source\LevelUp\obj\Debug\LevelUp.csproj.CopyComplete
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level-This-\Source\LevelUp\obj\Debug\LevelUp.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Level-This-\Source\LevelUp\obj\Debug\LevelUp.pdb

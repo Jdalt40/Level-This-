@@ -9,17 +9,29 @@ namespace LevelUp
 {
     public class LevelUpModSettings : ModSettings
     {
-        public bool LevelUpBodySizeMattersLess;
         public float LevelUpRate = 0.075f;
+        public float LevelUpHealthRate = 0.1f;
+        public float MaxRandomLevel = 10f;
+        public float BaseXP = 75f;
+        public const string defaultLevellingMode = "Compound Levelling";
+        public const string defaultHealthScalingMode = "Compounding Health";
+        public string LevellingType = defaultLevellingMode;
+        public string HealthScalingType = defaultHealthScalingMode;
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref LevelUpBodySizeMattersLess, "BodySizeMattersLess");
             Scribe_Values.Look(ref LevelUpRate, "LevellingRate", 0.075f);
+            Scribe_Values.Look(ref LevelUpHealthRate, "HealthPerLevelUp", 0.1f);
+            Scribe_Values.Look(ref MaxRandomLevel, "MaxRandomLevel", 10f);
+            Scribe_Values.Look(ref BaseXP, "BaseXPForLevelling", 75f);
+            Scribe_Values.Look(ref LevellingType, "LevellingMode", "Compound Levelling");
+            Scribe_Values.Look(ref HealthScalingType, "HealthScalingMode", "Compounding Health");
             base.ExposeData();
         }
     }
     public class LevelUpMod : Mod
     {
+        public static string[] LevellingMode = { "Compound Levelling", "Simple Levelling" };
+        public static string[] HealthScalingMode = { "Compounding Health", "Simple Health" };
         LevelUpModSettings settings;
         public LevelUpMod(ModContentPack content) : base(content)
         {
@@ -30,9 +42,16 @@ namespace LevelUp
         {
             Listing_Standard listingStandard = new Listing_Standard();
             listingStandard.Begin(inRect);
-            listingStandard.CheckboxLabeled("Body Size Matters Less", ref settings.LevelUpBodySizeMattersLess, "Ignores the body health scales below one (Rats, Squirrels, etc.) in randomising animal levels, this will make smaller animals less OP.");
+            listingStandard.AddLabeledRadioList($"Levelling Mode:", labels: LevellingMode, val: ref settings.LevellingType);
+            listingStandard.GapLine(3f);
+            listingStandard.AddLabeledRadioList($"Health Scaling Mode:", labels: HealthScalingMode, val: ref settings.HealthScalingType);
+            listingStandard.GapLine(3f);
             listingStandard.Label($"Levelling Rate ({settings.LevelUpRate.ToStringPercent()})");
             settings.LevelUpRate = listingStandard.Slider(settings.LevelUpRate, 0.001f, 1f);
+            listingStandard.Label($"Health Per Level Rate ({settings.LevelUpHealthRate.ToStringPercent()})");
+            settings.LevelUpHealthRate = listingStandard.Slider(settings.LevelUpHealthRate, 0.001f, 1f);
+            listingStandard.AddLabeledNumericalTextField("Maximum Random Level", ref settings.MaxRandomLevel, minValue: 1f, maxValue: 1000f);
+            listingStandard.AddLabeledNumericalTextField("Base XP Required", ref settings.BaseXP, minValue: 1f, maxValue: 100000f);
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);
         }
