@@ -4,7 +4,7 @@
 	<Operation Class="PatchOperationAdd">
 		<xpath>Defs/ThingDef[thingClass="Pawn"]/comps</xpath>
 		<value>
-            <li><compClass>LevelUp.HealthLevelling</compClass></li>
+            <li><compClass>LevelThis.HealthLevelling</compClass></li>
 		</value>
 	</Operation>
 

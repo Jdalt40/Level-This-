@@ -2,9 +2,10 @@
 <Defs>
 
   <HediffDef>
-    <hediffClass>LevelUp.LevelUpHealthHediff</hediffClass>
+    <hediffClass>LevelThis.LevelUpHealthHediff</hediffClass>
     <defName>HealthLevel</defName>
     <label>health</label>
+	<description>Pretty straight forward tbh</description>
 	<isBad>false</isBad>
 	<everCurableByItem>false</everCurableByItem>
   </HediffDef>
