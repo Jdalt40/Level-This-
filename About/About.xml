@@ -4,7 +4,9 @@
   <author>Jdalt40</author>
   <supportedVersions>
   <li>1.0</li>
+  <li>1.1</li>
   </supportedVersions>
+  <packageId>jdalt.levelthis</packageId>
   <description>&lt;color=#7c0a02&gt;There can be only one!&lt;/color&gt;
 -Level This! introduces staggering new gameplay by introducing a Health levelling system, start as a Level 0 Colonist and work your way up to the doomsday launcher absorbing Level 100 Pirate Boss!
   

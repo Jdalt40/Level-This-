@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -12,7 +12,7 @@ namespace LevelUp
     {
         static HarmonyPatches()
         {
-            HarmonyInstance harmony = HarmonyInstance.Create("Jdalt.RimWorld.LevelUp.Main");
+            Harmony harmony = new Harmony("Jdalt.RimWorld.LevelUp.Main");
             harmony.Patch(AccessTools.Property(typeof(Pawn), nameof(Pawn.HealthScale)).GetGetMethod(), null, new HarmonyMethod(typeof(HarmonyPatches), nameof(LevelUpHealthScale)));
         }
         public static void LevelUpHealthScale(Pawn __instance, ref float __result)
